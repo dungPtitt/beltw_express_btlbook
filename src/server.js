@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 import bodyParser from "body-parser";
 import initWebRoute from './router/web';
 import initAPIRoute from './router/api';
+import initAdminRoute from "./router/admin";
 import checkConnectDB from "./configs/connectDB";
 require('dotenv').config()
 const app = express()
@@ -26,7 +27,7 @@ configViewEngine(app);
 initWebRoute(app);
 //init api route
 initAPIRoute(app);
-
+initAdminRoute(app);
 checkConnectDB();
 
 const port = process.env.PORT || 8081

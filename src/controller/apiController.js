@@ -17,9 +17,8 @@ let signin = async(req, res)=>{
 let signup = async(req, res)=>{
   try{
     let data = req.body;
-    let response = await accountService.handleSignup(data);
+    let response = await userService.handleCreateUser(data);
     return res.status(200).json(response);
-    
   }catch(e){
     console.log(e);
     return res.status(500).json({

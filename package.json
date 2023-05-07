@@ -25,6 +25,7 @@
     "mysql2": "^2.2.5",
     "pg": "8.7.1",
     "pg-hstore": "2.3.4",
+    "react-image-lightbox": "^5.1.4",
     "sequelize": "^6.6.2"
   },
   "devDependencies": {

@@ -90,10 +90,73 @@ let deleteBook = async(req, res)=>{
   }
 }
 
+//----------------api-------------
+let getBookApi = async(req, res)=>{
+  try{
+    let idBook = req.query.id;
+    let response = await bookService.handleGetBook(idBook);
+    return res.status(200).json(response);
+  }catch(e){
+    console.log(e);
+    res.status(500).json({
+      errCode: -1,
+      errMessage: "Error from server!"
+    })
+  }
+  
+}
+
+let createBookApi = async(req, res)=>{
+  try{
+    let data = req.body;
+    let response = await bookService.handleCreateBook(data);
+    return res.status(200).json(response);
+  }catch(e){
+    console.log(e);
+    res.status(500).json({
+      errCode: -1,
+      errMessage: "Err from server!"
+    })
+  }
+}
+
+let updateBookApi = async(req, res)=>{
+  try{
+    let data = req.body;
+    let response = await bookService.handleUpdateBook(data);
+    return res.status(200).json(response);
+  }catch(e){
+    console.log(e);
+    res.status(500).json({
+      errCode: -1,
+      errMessage: "Error from server!"
+    })
+  }
+}
+
+let deleteBookApi = async(req, res)=>{
+  try{
+    let idBook = req.query.id;
+    let response = await bookService.handleDeleteBook(idBook);
+    return res.status(200).json(response);
+  }catch(e){
+    console.log(e);
+    res.status(500).json({
+      errCode: -1,
+      errMessage: "Err from server!"
+    })
+  }
+}
+
 module.exports = {
   createBook,
   getBook,
   getViewEditBook,
   updateBook,
-  deleteBook
+  deleteBook,
+  // api
+  createBookApi,
+  getBookApi,
+  updateBookApi,
+  deleteBookApi
 }

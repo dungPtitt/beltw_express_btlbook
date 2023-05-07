@@ -32,7 +32,7 @@ let handleSignin = (email, password) => {
         })
       }
       delete acc.password;
-      let token = jwt.sign({ email: email }, 'mk', {expiresIn: 86400});//24 gio
+      let token = jwt.sign({ id: acc.id }, 'mk', {expiresIn: 86400});//24 gio
       acc.accessToken = token;
       resolve({
         errCode: 0,
@@ -63,6 +63,9 @@ let checkEmail = (userEmail) => {
   })
 }
 
+let handleSignup = async()=>{
+
+}
 
 let checkUserExist = (userName, userEmail) => {
   return new Promise(async (resolve, reject) => {
@@ -78,6 +81,32 @@ let checkUserExist = (userName, userEmail) => {
       }
     }catch(e) {
       reject(e)
+    }
+  })
+}
+
+let checkIsAdmin = (userId)=>{
+  return new Promise(async(resolve, reject)=>{
+    try{
+      let user = await db.User.findByPk(userId);
+      if(!user){
+        return resolve({
+          errCode: 1,
+          errMessage: "User not found!"
+        })
+      }
+      if(user.idAuth!==3){
+        return resolve({
+          errCode: 2,
+          errMessage: "Require Admin Role!"
+        })
+      }
+      return resolve({
+        errCode: 0,
+        message: "Welcome admin"
+      })
+    }catch(e){
+      reject(e);
     }
   })
 }
@@ -117,10 +146,10 @@ let handleGetUser = (idUser)=>{
 let handleCreateUser= async (data) => {
   return new Promise(async (resolve, reject) => {
     try {
-      if(!data){
+      if(!data.name || !data.email || !data.password){
         return resolve({
           errCode:1,
-          errMessage: "Missing input data!"
+          errMessage: "Missing input value!"
         })
       }
       let user = await db.User.findOne({
@@ -135,7 +164,7 @@ let handleCreateUser= async (data) => {
       }
       let passwordHash = await hashUserPassword(data.password);
       await db.User.create({
-        idAuth: data.idAuth,
+        idAuth: data.idAuth? data.idAuth: 1,
         name: data.name,
         email: data.email,
         password: passwordHash
@@ -242,6 +271,9 @@ module.exports = {
   handleCreateUser,
   handleUpdateUser,
   handleDeleteUser,
+
+  //authority
   handleSignin,
-  // handleSignup,
+  handleSignup,
+  checkIsAdmin,
 }

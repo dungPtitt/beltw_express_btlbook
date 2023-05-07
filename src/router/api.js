@@ -1,6 +1,6 @@
 import express from "express";
 import apiController from "../controller/apiController";
-
+import bookController from "../controller/bookController";
 let router = express.Router()
      
 const initAPIRoute = (app)=> {
@@ -19,6 +19,9 @@ const initAPIRoute = (app)=> {
   router.post("/auth/signup", apiController.signup);
   router.post("/create-user", apiController.createUser);
 
+  router.post("/create-book", bookController.createBookApi);
+  router.get("/get-book", bookController.getBookApi);
+  
   return app.use("/api/v1/", router);
 }
 

@@ -35,7 +35,7 @@ let handleGetBook = (idBook)=>{
 let handleCreateBook= async (data) => {
   return new Promise(async (resolve, reject) => {
     try {
-      if(!data){
+      if(!data.title || !data.author ||!data.category ||!data.dateRelease ||!data.numberPage||!data.quantitySold){
         return resolve({
           errCode:1,
           errMessage: "Missing input data!"
@@ -57,7 +57,8 @@ let handleCreateBook= async (data) => {
         category: data.category,
         dateRelease: data.dateRelease,
         quantitySold: data.quantitySold,
-        numberPage: data.numberPage
+        numberPage: data.numberPage,
+        image: data.image?data.image:""
       })
       resolve({
         errCode: 0,
@@ -107,6 +108,7 @@ let handleUpdateBook = (data)=>{
       book.dateRelease = data.dateRelease
       book.quantitySold = data.quantitySold;
       book.numberPage = data.numberPage;
+      book.image = data.image?data.image:"";
       await book.save();
       resolve({
         errCode: 0,
