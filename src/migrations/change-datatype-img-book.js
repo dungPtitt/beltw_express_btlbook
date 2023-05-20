@@ -2,7 +2,8 @@ module.exports = {
   up: (queryInterface, Sequelize) => {
       return Promise.all([
           queryInterface.changeColumn('books', 'image', {
-              type: Sequelize.MEDIUMBLOB,
+            //   type: Sequelize.STRING,
+              type: Sequelize.BLOB('long'),
               allowNull: false,
           })
       ])
@@ -11,7 +12,7 @@ module.exports = {
   down: (queryInterface, Sequelize) => {
       return Promise.all([
           queryInterface.changeColumn('books', 'image', {
-              type: Sequelize.BLOB,
+              type: Sequelize.MEDIUMBLOB,
               allowNull: false,
           })
       ])

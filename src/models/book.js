@@ -14,7 +14,9 @@ module.exports = (sequelize, DataTypes) => {
     dateRelease: DataTypes.DATEONLY,
     quantitySold: DataTypes.INTEGER,
     numberPage: DataTypes.INTEGER,
-    image: DataTypes.BLOB
+    image: DataTypes.BLOB,
+    price: DataTypes.INTEGER,
+    des: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Book',

@@ -1,52 +1,36 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('books', {
+    await queryInterface.createTable('bills', {
       id: {
         allowNull: false,
         primaryKey: true,
         autoIncrement: true,
         type: Sequelize.INTEGER
       },
-      title: {
-        allowNull: false,
-        type: Sequelize.STRING
-      },
-      author: {
-        allowNull: false,
-        type: Sequelize.STRING
-      },
-      category: {
-        allowNull: false,
-        type: Sequelize.STRING
-      },
-      dateRelease: {
-        allowNull: false,
-        type: Sequelize.DATEONLY
-      },
-      quantitySold: {
+      idUser: {
         allowNull: false,
         type: Sequelize.INTEGER
       },
-      numberPage: {
-        allowNull: false,
-        type: Sequelize.INTEGER
-      },
-      image: {
-        allowNull: false,
-        type: Sequelize.BLOB
-      },
-      price: {
-        allowNull: false,
-        type: Sequelize.INTEGER
-      },
-      des: {
+      arrIdBook: {
         allowNull: false,
         type: Sequelize.STRING
+      },
+      arrQuantity: {
+        allowNull: false,
+        type: Sequelize.STRING
+      },
+      totalMoney: {
+        allowNull: false,
+        type: Sequelize.INTEGER
+      },
+      status: {
+        allowNull: false,
+        type: Sequelize.INTEGER
       }
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('books');
+    await queryInterface.dropTable('bills');
   }
 };

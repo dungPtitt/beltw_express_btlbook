@@ -21,6 +21,11 @@ const initAPIRoute = (app)=> {
 
   router.post("/create-book", bookController.createBookApi);
   router.get("/get-book", bookController.getBookApi);
+  router.get("/get-feedback", apiController.getFeedBack);
+  router.post("/create-feedback", apiController.createFeedBack);
+  router.get("/get-order", apiController.getOrder);
+  router.post("/create-order", apiController.createOrder);
+  router.delete("/delete-order", apiController.deleteOrder);
   
   return app.use("/api/v1/", router);
 }
