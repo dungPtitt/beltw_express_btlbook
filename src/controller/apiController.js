@@ -30,6 +30,34 @@ let signup = async(req, res)=>{
   }
 }
 
+let changePassword = async(req, res)=>{
+  try{
+    let data = req.body;
+    let response = await userService.handleChangePassword(data);
+    return res.status(200).json(response);
+  }catch(e){
+    console.log(e);
+    return res.status(500).json({
+      errCode: -1,
+      errMessage: "Err from server!"
+    })
+  }
+}
+
+let forgotPassword = async(req, res)=>{
+  try{
+    let data = req.body;
+    let response = await userService.handleForgotPassword(data);
+    return res.status(200).json(response);
+  }catch(e){
+    console.log(e);
+    return res.status(500).json({
+      errCode: -1,
+      errMessage: "Err from server!"
+    })
+  }
+}
+
 let createUser = async(req, res)=>{
   try{
     let data = req.body;
@@ -119,6 +147,9 @@ module.exports = {
   signin,
   signup,
   createUser,
+  changePassword,
+  forgotPassword,
+
   getFeedBack,
   createFeedBack,
   getOrder,

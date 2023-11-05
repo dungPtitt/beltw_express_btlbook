@@ -29,8 +29,8 @@ let getUser = async(req, res)=>{
       errMessage: "Error from server!"
     })
   }
-  
 }
+
 let getViewEditUser = async(req, res)=>{
   try{
     let idUser = req.query.id;
@@ -86,11 +86,72 @@ let deleteUser = async(req, res)=>{
     })
   }
 }
+///----------------------------api------------
+let createUserApi = async(req, res)=>{
+  try{
+    let data = req.body;
+    let response = await userService.handleCreateUser(data);
+    return res.status(200).json(response);
+  }catch(e){
+    console.log(e);
+    res.status(500).json({
+      errCode: -1,
+      errMessage: "Err from server!"
+    })
+  }
+}
 
+let getUserApi = async(req, res)=>{
+  try{
+    let idUser = req.query.id;
+    let response = await userService.handleGetUser(idUser);
+    return res.status(200).json(response);
+  }catch(e){
+    console.log(e);
+    res.status(500).json({
+      errCode: -1,
+      errMessage: "Error from server!"
+    })
+  }
+}
+
+let updateUserApi = async(req, res)=>{
+  try{
+    let data = req.body;
+    let response = await userService.handleUpdateUser(data);
+    return res.status(200).json(response);
+  }catch(e){
+    console.log(e);
+    res.status(500).json({
+      errCode: -1,
+      errMessage: "Error from server!"
+    })
+  }
+}
+
+
+let deleteUserApi = async(req, res)=>{
+  try{
+    let idUser = req.query.id;
+    let response = await userService.handleDeleteUser(idUser);
+    return res.status(200).json(response);
+  }catch(e){
+    console.log(e);
+    res.status(500).json({
+      errCode: -1,
+      errMessage: "Err from server!"
+    })
+  }
+}
 module.exports = {
   createUser,
   getUser,
   getViewEditUser,
   updateUser,
-  deleteUser
+  deleteUser,
+
+  createUserApi,
+  getUserApi,
+  updateUserApi,
+  deleteUserApi,
 }

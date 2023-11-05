@@ -5,6 +5,7 @@ const {
 module.exports = (sequelize, DataTypes) => {
   class Feedback extends Model {
     static associate(models) {
+      Feedback.belongsTo(models.User, {foreignKey: "idUser", as: "dataUser"});
     }
   };
   Feedback.init({

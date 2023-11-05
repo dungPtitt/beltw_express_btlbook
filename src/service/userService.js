@@ -2,6 +2,7 @@ import db from "../models/index";
 import bcrypt from 'bcryptjs';
 let salt = bcrypt.genSaltSync(10);
 import jwt from "jsonwebtoken";
+import emailService from "./emailService";
 
 let handleSignin = (email, password) => {
   return new Promise(async (resolve, reject) => {
@@ -107,6 +108,83 @@ let checkIsAdmin = (userId)=>{
       })
     }catch(e){
       reject(e);
+    }
+  })
+}
+let handleChangePassword = (data) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let userId = data.userId,
+          password = data.password,
+          newpassword = data.newpassword;
+      if(!userId || !password|| !newpassword){
+        resolve({
+          errCode: 1,
+          errMessage: "Missing input value!"
+        })
+      }
+      let acc = await db.User.findOne({
+        where: { id: userId },
+        raw: false
+      })
+      if(!acc){
+        resolve({
+          errCode: 2,
+          errMessage: "User not exist in db!"
+        })
+      }
+      let check = await bcrypt.compare(password, acc.password);
+      if(!check){
+        return resolve({
+          errCode: 2,
+          errMessage: "Wrong password!"
+        })
+      }
+      acc.password =  await hashUserPassword(newpassword);
+      await acc.save();
+      resolve({
+        errCode: 0,
+        message: "Change password successfully!",
+      });
+    } catch (e) {
+      reject(e)
+    }
+  })
+}
+
+let handleForgotPassword = (data) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let name = data.name;
+      let email = data.email;
+      if(!name || !email){
+        resolve({
+          errCode: 1,
+          errMessage: "Missing input value!"
+        })
+      }
+      let acc = await db.User.findOne({
+        where: { name: name, email: email },
+        raw: false
+      })
+      if(!acc){
+        resolve({
+          errCode: 2,
+          errMessage: "User not exist in db!"
+        })
+      }
+      let password = Math.random().toString().substr(2, 6);
+      data.password = password;
+      await emailService.sendForgotPassword(data);
+      let hashPasswordFromBcrypt = await hashUserPassword(password);
+      acc.password = hashPasswordFromBcrypt;
+      await acc.save();
+      resolve({
+        errCode: 0,
+        message: "Get password successfully!",
+      });
+    } catch (e) {
+      reject(e)
     }
   })
 }
@@ -222,9 +300,8 @@ let handleUpdateUser = (data)=>{
           })
         }
       }
-      user.name = data.name
+      user.name = data.name;
       user.email = data.email;
-      user.password = data.password;
       await user.save();
       resolve({
         errCode: 0,
@@ -276,4 +353,6 @@ module.exports = {
   handleSignin,
   handleSignup,
   checkIsAdmin,
+  handleChangePassword,
+  handleForgotPassword
 }

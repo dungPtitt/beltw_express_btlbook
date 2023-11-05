@@ -13,7 +13,15 @@ let handleGetFeedBack = (idBook)=>{
       if(idBook){
         feedbacks = await db.Feedback.findAll({
           where: {idBook: idBook},
-          raw: true
+          include: [
+            {
+              model: db.User,
+              as: "dataUser",
+              attributes: ["name"]
+            }
+          ],
+          raw: true,
+          nest: true
         });
         return resolve({
           errCode: 0,
@@ -37,7 +45,7 @@ let handleCreateFeedBack= async (data) => {
         })
       }
       let feedback = await db.Feedback.findOne({
-        where: {comment: data.comment, idUser: data.idUser},
+        where: {comment: data.comment, idBook: data.idBook, idUser: data.idUser},
         raw: true
       })
       if(feedback){
@@ -94,6 +102,7 @@ let handleUpdateFeedBack = (data)=>{
           })
         }
       }
+      
       feedback.title = data.title
       feedback.author = data.author;
       feedback.category = data.category;

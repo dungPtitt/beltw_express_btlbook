@@ -18,6 +18,7 @@ let verifyToken = (req, res, next) => {
         errMessage: "Unauthorized!"
       });
     }
+    console.log(decoded);
     req.userId = decoded.id;
     next();
   });

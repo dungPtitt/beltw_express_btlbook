@@ -9,6 +9,10 @@ module.exports = (sequelize, DataTypes) => {
   };
   Bill.init({
     idUser: DataTypes.INTEGER,
+    name: DataTypes.STRING,
+    phoneNumber: DataTypes.STRING,
+    email: DataTypes.STRING,
+    address: DataTypes.STRING,
     arrIdBook: DataTypes.STRING,
     arrQuantity: DataTypes.STRING,
     totalMoney: DataTypes.INTEGER,
